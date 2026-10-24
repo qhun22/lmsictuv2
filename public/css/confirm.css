@@ -1,0 +1,244 @@
+/* ============================================================================
+   CONFIRM DIALOG — stylesheet (đồng bộ với toast.css)
+   ----------------------------------------------------------------------------
+   Tone màu + radius + shadow + motion lấy cảm hứng từ toast để hệ thống
+   dùng chung 1 style. Hỗ trợ 4 loại: danger / warning / info / success.
+   ============================================================================ */
+
+/* ----- Overlay ---------------------------------------------------- */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;       /* cao hơn modal thường, thấp hơn toast-stack (9999) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(23, 46, 76, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  font-family: 'Signika', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.confirm-overlay.is-visible {
+  opacity: 1;
+}
+
+/* ----- Dialog box ------------------------------------------------- */
+.confirm-dialog {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow:
+    0 20px 50px -10px rgba(0, 0, 0, 0.25),
+    0 8px 20px -8px rgba(0, 0, 0, 0.15);
+  padding: 22px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-top: 4px solid #6b7280;
+  color: #1f2937;
+}
+
+.confirm-overlay.is-visible .confirm-dialog {
+  transform: translateY(0) scale(1);
+}
+
+/* ----- Border-top color theo type --------------------------------- */
+.confirm--danger  { border-top-color: #ef4444; }
+.confirm--warning { border-top-color: #f59e0b; }
+.confirm--info    { border-top-color: #3b82f6; }
+.confirm--success { border-top-color: #10b981; }
+
+/* ----- Icon wrap --------------------------------------------------- */
+.confirm__icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.confirm__icon-wrap svg {
+  width: 28px;
+  height: 28px;
+}
+
+.confirm--danger .confirm__icon-wrap {
+  background: #fee2e2;
+  color: #ef4444;
+}
+.confirm--warning .confirm__icon-wrap {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+.confirm--info .confirm__icon-wrap {
+  background: #dbeafe;
+  color: #3b82f6;
+}
+.confirm--success .confirm__icon-wrap {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+/* ----- Content ----------------------------------------------------- */
+.confirm__content {
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.confirm__title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #1f2937;
+  line-height: 1.35;
+}
+
+.confirm__message {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.confirm__detail {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #9ca3af;
+  line-height: 1.45;
+}
+
+/* ----- Actions (buttons) ------------------------------------------ */
+.confirm__actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.confirm__btn {
+  flex: 1;
+  min-height: 42px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+/* Cancel button — ghost style */
+.confirm__btn--cancel {
+  background: transparent;
+  color: #6b7280;
+  border: 1.5px solid #e5e7eb;
+}
+
+.confirm__btn--cancel:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+  border-color: #d1d5db;
+}
+
+/* Confirm button — theo type */
+.confirm__btn--confirm {
+  color: #ffffff;
+  background: #6b7280;
+}
+
+.confirm__btn--confirm:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+.confirm__btn--confirm:focus-visible {
+  outline: 2px solid rgba(107, 114, 128, 0.42);
+  outline-offset: 2px;
+}
+
+.confirm__btn--cancel:focus-visible {
+  outline: 2px solid rgba(107, 114, 128, 0.42);
+  outline-offset: 2px;
+}
+
+/* Per-type colors cho confirm */
+.confirm--danger .confirm__btn--confirm {
+  background: #ef4444;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+.confirm--danger .confirm__btn--confirm:focus-visible {
+  outline-color: rgba(239, 68, 68, 0.42);
+}
+
+.confirm--warning .confirm__btn--confirm {
+  background: #f59e0b;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+.confirm--warning .confirm__btn--confirm:focus-visible {
+  outline-color: rgba(245, 158, 11, 0.42);
+}
+
+.confirm--info .confirm__btn--confirm {
+  background: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+.confirm--info .confirm__btn--confirm:focus-visible {
+  outline-color: rgba(59, 130, 246, 0.42);
+}
+
+.confirm--success .confirm__btn--confirm {
+  background: #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+.confirm--success .confirm__btn--confirm:focus-visible {
+  outline-color: rgba(16, 185, 129, 0.42);
+}
+
+/* ----- Responsive -------------------------------------------------- */
+@media (max-width: 480px) {
+  .confirm-overlay {
+    padding: 14px;
+    align-items: flex-end;
+  }
+  .confirm-dialog {
+    width: 100%;
+    padding: 18px 18px 14px;
+  }
+  .confirm__icon-wrap {
+    width: 50px;
+    height: 50px;
+  }
+  .confirm__icon-wrap svg {
+    width: 24px;
+    height: 24px;
+  }
+  .confirm__title {
+    font-size: 1rem;
+  }
+  .confirm__message {
+    font-size: 0.88rem;
+  }
+  .confirm__btn {
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+}

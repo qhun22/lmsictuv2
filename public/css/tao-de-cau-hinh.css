@@ -1,0 +1,285 @@
+/* ================================================================
+   CẤU HÌNH BÀI THI - UI 2026
+   ================================================================ */
+
+/* ── Wrapper ── */
+.cauhinh-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Thông tin bài thi ── */
+.cauhinh-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cauhinh-info-subject {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--s-text);
+}
+
+.cauhinh-info-week {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--s-text-muted);
+}
+
+/* ── Section title ── */
+.cauhinh-section-title {
+  margin: 0 0 16px 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--s-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Cài đặt row ── */
+.cauhinh-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--s-border);
+}
+
+.cauhinh-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cauhinh-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--s-text);
+}
+
+.cauhinh-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cauhinh-input-group .smh-input {
+  width: 120px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.cauhinh-input-hint {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--s-text-muted);
+}
+
+/* ── Toggle switch ── */
+.cauhinh-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cauhinh-toggle {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cauhinh-toggle:focus-visible {
+  outline: 2px solid rgba(45, 138, 247, 0.42);
+  outline-offset: 2px;
+  border-radius: 100px;
+}
+
+.cauhinh-toggle-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 100px;
+  background: var(--s-text-muted);
+  transition: background 0.22s ease;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.cauhinh-toggle[aria-checked="true"] .cauhinh-toggle-track {
+  background: #10b981;
+}
+
+.cauhinh-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cauhinh-toggle[aria-checked="true"] .cauhinh-toggle-thumb {
+  transform: translateX(20px);
+}
+
+.cauhinh-toggle-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--s-text);
+}
+
+.cauhinh-hint {
+  margin: 4px 0 0 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--s-text-muted);
+  line-height: 1.5;
+}
+
+/* ── KeyUsername section ── */
+.cauhinh-add-user {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.cauhinh-add-user .smh-input {
+  flex: 1;
+}
+
+.cauhinh-user-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.cauhinh-user-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--s-bg);
+  border: 1.5px solid var(--s-border);
+  border-radius: var(--s-radius-sm);
+  animation: card-in 0.2s ease both;
+}
+
+.cauhinh-user-name {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--s-text);
+  word-break: break-all;
+}
+
+.cauhinh-user-del {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--s-radius-sm);
+  background: transparent;
+  color: var(--s-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.cauhinh-user-del svg {
+  width: 15px;
+  height: 15px;
+}
+
+.cauhinh-user-del:hover {
+  background: var(--s-danger-light);
+  color: var(--s-danger);
+}
+
+.cauhinh-user-empty {
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: var(--s-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--s-bg);
+  border: 1px dashed var(--s-border);
+  border-radius: var(--s-radius-sm);
+}
+
+/* ── Link row ── */
+.cauhinh-link-row {
+  display: flex;
+  gap: 10px;
+}
+
+.cauhinh-link-row .smh-input {
+  flex: 1;
+}
+
+/* ── Actions ── */
+.cauhinh-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cauhinh-actions .smh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  height: 44px;
+  padding: 0 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .cauhinh-wrapper {
+    gap: 16px;
+  }
+
+  .cauhinh-add-user {
+    flex-direction: column;
+  }
+
+  .cauhinh-add-user .smh-btn {
+    width: 100%;
+  }
+
+  .cauhinh-link-row {
+    flex-direction: column;
+  }
+
+  .cauhinh-actions {
+    flex-direction: column;
+  }
+
+  .cauhinh-actions .smh-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,19 @@
+name = "lmsictu"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets (CSS, JS, images)
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "lmsictu"
+database_id = "04e7b34c-aff4-4251-a3f7-56082a6cc51b"
+
+[vars]
+SECRET_KEY = "REPLACE_WITH_SECRET_KEY"
+
+# Dev: đọc .dev.vars cho SECRET_KEY

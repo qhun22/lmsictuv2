@@ -1,0 +1,199 @@
+/* ============================================================================
+   TOAST NOTIFICATION - stylesheet
+   ----------------------------------------------------------------------------
+   Vị trí: góc trên bên phải, fixed.
+   4 loại: success / error / warning / info.
+   Slide-in từ phải, mờ dần khi đóng.
+   Progress bar chạy ngang, dừng khi hover.
+   ============================================================================ */
+
+/* ----- Container ---------------------------------------------------- */
+.toast-stack {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+    max-width: min(300px, calc(100vw - 24px));
+    width: 300px;
+}
+.toast-stack > .toast { pointer-events: auto; }
+
+@media (max-width: 768px) {
+    .toast-stack {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-width: calc(100vw - 20px);
+        gap: 8px;
+    }
+    .toast {
+        padding: 8px 10px 12px;
+        border-radius: 8px;
+        gap: 4px;
+    }
+    .toast__title {
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+    .toast__icon {
+        width: 18px;
+        height: 18px;
+    }
+    .toast__message {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+    .toast__close {
+        font-size: 1.1rem;
+    }
+    .toast__progress {
+        height: 2px;
+    }
+}
+
+/* ----- Toast item --------------------------------------------------- */
+.toast {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 12px 14px;
+    background: #ffffff;
+    color: #1f2937;
+    border-radius: 10px;
+    box-shadow:
+        0 8px 18px -6px rgba(0, 0, 0, 0.18),
+        0 4px 8px -4px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    border-left: 4px solid #6b7280;
+    transform: translateX(120%);
+    opacity: 0;
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity   0.35s ease;
+    will-change: transform, opacity;
+    font-family: inherit;
+}
+.toast.is-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+.toast.is-leaving {
+    transform: translateX(120%);
+    opacity: 0;
+    transition:
+        transform 0.3s ease-in,
+        opacity   0.3s ease-in;
+}
+
+/* ----- Header (title + close) -------------------------------------- */
+.toast__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.toast__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.toast__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.toast__icon svg { width: 100%; height: 100%; display: block; }
+
+.toast__close {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 1.25rem;
+    line-height: 1;
+    border-radius: 4px;
+    transition: background 0.15s, color 0.15s;
+}
+.toast__close:hover { background: rgba(0, 0, 0, 0.06); color: #111827; }
+.toast__close:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+/* ----- Body (message) ---------------------------------------------- */
+.toast__message {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: #4b5563;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+/* ----- Progress bar (footer) --------------------------------------- */
+.toast__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: currentColor; /* màu sẽ do .toast--{type} set */
+    transform-origin: left center;
+    transform: scaleX(1);
+    transition: transform 0.1s linear;
+    opacity: 0.85;
+}
+.toast.is-paused .toast__progress {
+    /* Dừng không cho chạy thêm - JS sẽ giữ transform cũ */
+    /* Không có transition ở trạng thái paused */
+    transition: none;
+}
+
+/* ----- Type variants ----------------------------------------------- */
+.toast--general,
+.toast--success,
+.toast--error,
+.toast--warning,
+.toast--info {
+    border-left-color: #00abff;
+    color: #1f5381;
+}
+.toast--success .toast__progress { background: #10b981; }
+.toast--success .toast__title   { color: #065f46; }
+.toast--success .toast__message { color: #375a53; }
+
+.toast--error .toast__progress { background: #ef4444; }
+.toast--error .toast__title   { color: #991b1b; }
+.toast--error .toast__message { color: #7f1d1d; }
+
+.toast--warning .toast__progress { background: #f59e0b; }
+.toast--warning .toast__title   { color: #92400e; }
+.toast--warning .toast__message { color: #78350f; }
+
+.toast--info .toast__progress { background: #00abff; }
+.toast--info .toast__title   { color: #1f5381; }
+.toast--info .toast__message { color: #4a5568; }
+
+.toast--general .toast__progress { background: #00abff; }
+.toast--general .toast__title   { color: #1f5381; }
+.toast--general .toast__message { color: #4a5568; }
+
+/* ----- Reduced motion ---------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .toast,
+    .toast.is-leaving { transition: opacity 0.2s ease; transform: none; }
+}

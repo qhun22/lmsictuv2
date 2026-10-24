@@ -1,0 +1,2 @@
+# Copy file này thành .dev.vars (không commit)
+SECRET_KEY=your-secret-key-here

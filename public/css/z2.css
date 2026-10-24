@@ -1,0 +1,774 @@
+/* ==========================================================================
+   CSS MAIN BODY (HERO, BENTO, GANG, SUBSCRIBE FORM, FOOTER)
+   ========================================================================== */
+
+/* Layout & Containers */
+.main-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.padding-global {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .padding-global {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.container-large {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Utilities */
+.padding-xhuge { padding-top: 8rem; }
+.padding-xlarge { padding-bottom: 4rem; }
+.padding-section-medium { padding-top: 5rem; padding-bottom: 5rem; }
+.padding-section-large { padding-top: 7rem; padding-bottom: 7rem; }
+.margin-bottom.margin-xhuge { margin-bottom: 8rem; }
+.margin-bottom.margin-large { margin-bottom: 3rem; }
+.margin-bottom.margin-medium { margin-bottom: 2rem; }
+.margin-bottom.margin-small { margin-bottom: 1rem; }
+.margin-bottom.margin-custom1 { margin-bottom: 1.5rem; }
+.margin-top.margin-xlarge { margin-top: 4rem; }
+.margin-top.margin-medium { margin-top: 2rem; }
+
+/* Typo Base */
+.heading-style-h1 {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -2.4px;
+}
+
+.text-size-medium { font-size: 1.25rem; }
+.text-weight-xbold { font-weight: 900; }
+
+/* Main Buttons */
+.main_button, .hero_button, .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 57px;
+  padding: 0.5rem 2rem;
+  border-radius: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  background-color: var(--base-color-brand--blue);
+  transition: all 0.25s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.main_button:hover, .hero_button:hover, .button:hover {
+  background-color: var(--base-color-brand--blue-dark);
+}
+
+.max-width-full { width: 100%; }
+
+/* ==========================================================================
+   SECTION 1: HERO SLIDER & LOTTIE "HOLA"
+   ========================================================================== */
+.hero_component {
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.hero_wrapper {
+  display: flex;
+}
+
+/* Khung chứa Pocoyo & Nét vẽ chữ Hola */
+.hero_content-lottie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 480px;
+  position: relative;
+}
+
+.hero_lottie {
+  width: 100%;
+  max-width: 900px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.hero_image-pocoyo-gif {
+  max-width: 20rem;
+  width: 100%;
+  height: auto;
+  opacity: 1 !important;
+  transform: none !important;
+  position: relative;
+  z-index: 2;
+  margin-top: 40px;
+}
+
+/* 🌟 CHỮ JOIN THE GROUPS 1 HÀNG & ĐẨY NỘI DUNG LÊN CAO */
+.hero_slider-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 542px;
+  padding: 3.5rem !important;
+  background-color: #ccedff;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.hero_slider-content-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 50%; /* Mở rộng chiều rộng cột chữ để tiêu đề không bị rớt hàng */
+  max-width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Ép tiêu đề Join the Groups nằm gọn 1 hàng duy nhất */
+.hero_slider-content-wrapper .heading-style-h1 {
+  font-size: 3.8rem !important; /* Căn chỉnh lại cỡ chữ vừa vặn */
+  white-space: nowrap !important; /* Tuyệt đối không cho xuống hàng */
+}
+
+/* Thu hẹp margin để đẩy văn bản và nút Tham gia! nổi vọt lên cao */
+.hero_slider-content-wrapper .margin-bottom.margin-xhuge {
+  margin-bottom: 0.5rem !important; 
+}
+
+.hero_slider-content-wrapper .hero_content-paragraph {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem; /* Tạo khoảng cách vừa đẹp tới nút Tham gia! */
+}
+
+/* Định vị khung ảnh con chim tràn lề bên phải */
+.hero_slider-content:not(.is-line-fullbleed) .hero_slider-image-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 58%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero_slider-content:not(.is-line-fullbleed) .hero_content-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: bottom right !important;
+}
+
+/* Slide 2: Banner Telegram Full Width */
+.hero_slider-content.is-line-fullbleed {
+  display: block !important;
+  width: 100% !important;
+  height: 542px !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+.hero_slider-content.is-line-fullbleed .hero_slider-image-wrapper {
+  flex: none !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero_slider-content.is-line-fullbleed .hero_content-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 2rem;
+}
+
+.hero_content-paragraph {
+  color: #0080bf;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-top: 1rem;
+}
+
+.line-banner-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero_content-image.is-line-img.is-desktop-banner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero_content-image.is-line-img.is-mobile-banner {
+  display: none;
+}
+
+/* Pagination Dots */
+.about_slider-dots {
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+.swiper-pagination-bullet {
+  background-color: #00aaff4d;
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--base-color-brand--blue);
+  width: 64px;
+  height: 20px;
+  border-radius: 100px;
+}
+
+/* ==========================================================================
+   SECTION 2: BENTO GRID (CHUẨN 100% THEO BẢN GỐC)
+   ========================================================================== */
+.hero_title-wrapper {
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.hero_title-wrapper .heading-style-h1 {
+  font-size: 3.5rem;
+  white-space: nowrap;
+}
+
+.bento_home-top {
+  display: grid;
+  grid-template-columns: 1.7fr 0.8fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.bento_home-bottom {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr;
+  gap: 2rem;
+}
+
+.bento_home-bottom-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.bento_episodes-wrapper,
+.bento_songs-wrapper,
+.bento_apps-wrapper,
+.bento_tales-wrapper,
+.bento_crafts-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 24px;
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.bento_episodes-wrapper, .bento_songs-wrapper { height: 496px; }
+.bento_apps-wrapper, .bento_tales-wrapper { height: 233px; }
+
+/* 🌟 CẤU TRÚC TALES CHUẨN GỐC: Tiêu đề trên góc phải, nút Read dưới góc phải */
+.bento_tales-wrapper { 
+  align-items: flex-end; 
+  justify-content: space-between;
+}
+
+.bento_crafts-wrapper { 
+  height: 493px; 
+  align-items: center; 
+  justify-content: space-between; 
+}
+
+/* Typo Tiêu đề 5 Box */
+.bento_episodes-title { color: #00abff; font-size: 7.5rem; font-weight: 900; text-transform: uppercase; line-height: 0.8; z-index: 2; }
+.bento_songs-title { color: #ff4ab0; font-size: 6.5rem; font-weight: 900; text-transform: uppercase; line-height: 0.8; z-index: 2; text-align: right; align-self: flex-end; }
+.bento_apps-title { color: #21bf55; font-size: 3.5rem; font-weight: 900; text-transform: uppercase; line-height: 0.9; z-index: 2; }
+.bento_tales-title { color: #ff8700; font-size: 3.5rem; font-weight: 900; text-transform: uppercase; line-height: 0.8; z-index: 2; text-align: right; }
+.bento_crafts-title { color: #fc0; font-size: 4.5rem; font-weight: 900; text-transform: uppercase; text-align: center; line-height: 1; z-index: 2; }
+
+/* Kích thước & Vị trí Ảnh Minh Họa */
+.bento_episodes-illu { position: absolute; bottom: 0; left: 80px; max-height: 380px; pointer-events: none; }
+.bento_songs-illu { position: absolute; bottom: 0; left: 0; max-height: 420px; pointer-events: none; }
+.bento_apps-illu { position: absolute; bottom: 0; right: 0; max-height: 190px; pointer-events: none; }
+
+/* 🌟 FIX CHỒNG SÁCH TALES: Phồng to dính sát lề trái chuẩn 100% gốc */
+.bento_tales-illu { 
+  position: absolute; 
+  bottom: -5px; 
+  left: 10px; 
+  height: 105%;
+  max-height: 235px; 
+  object-fit: contain;
+  pointer-events: none; 
+}
+
+.bento_crafts-illu { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.bento_link { position: absolute; inset: 0; z-index: 3; }
+
+/* Màu nút bấm mặc định */
+.bento_episodes-wrapper .main_button { background-color: #00abff; color: #fff; z-index: 2; }
+.bento_songs-wrapper .main_button { background-color: #ff4ab0; color: #fff; z-index: 2; align-self: flex-end; }
+.bento_apps-wrapper .main_button { background-color: #21bf55; color: #fff; z-index: 2; }
+.bento_tales-wrapper .main_button { background-color: #ff8700; color: #fff; z-index: 2; }
+.bento_crafts-wrapper .main_button { background-color: #fc0; color: #fff; z-index: 2; }
+
+/* Hiệu ứng Hover đổi màu toàn box */
+.bento_episodes-wrapper:hover { background-color: #00abff; }
+.bento_episodes-wrapper:hover .bento_episodes-title { color: var(--white); }
+.bento_episodes-wrapper:hover .main_button { background-color: var(--white); color: #00abff; }
+
+.bento_songs-wrapper:hover { background-color: #ff4ab0; }
+.bento_songs-wrapper:hover .bento_songs-title { color: var(--white); }
+.bento_songs-wrapper:hover .main_button { background-color: var(--white); color: #ff4ab0; }
+
+.bento_apps-wrapper:hover { background-color: #21bf55; }
+.bento_apps-wrapper:hover .bento_apps-title { color: var(--white); }
+.bento_apps-wrapper:hover .main_button { background-color: var(--white); color: #21bf55; }
+
+.bento_tales-wrapper:hover { background-color: #ff8700; }
+.bento_tales-wrapper:hover .bento_tales-title { color: var(--white); }
+.bento_tales-wrapper:hover .main_button { background-color: var(--white); color: #ff8700; }
+
+.bento_crafts-wrapper:hover { background-color: #fc0; }
+.bento_crafts-wrapper:hover .bento_crafts-title { color: var(--white); }
+.bento_crafts-wrapper:hover .main_button { background-color: var(--white); color: #fc0; }
+
+/* ==========================================================================
+   SECTION 3: MEET THE GANG & SUBSCRIBE FORM
+   ========================================================================== */
+.slider_navigation-wrapper.is-gang { display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; }
+.gang_component { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-top: 15rem; }
+.gang_wrapper { position: relative; flex: 1; border-radius: 24px; }
+
+.background-color-yellow { background-color: #fc0; }
+.background-color-purple { background-color: #9c59ff; }
+.background-color-green-new { background-color: #21bf55; }
+.background-color-blue { background-color: var(--base-color-brand--blue); }
+
+.gang_illu { position: absolute; bottom: -2rem; transition: all 0.6s ease-in-out; }
+.gang_illu.is-bea { bottom: 0; }
+.gang_name-wrapper {
+  position: relative; z-index: 1; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; width: 100%; height: 100%;
+  padding: 1.25rem 1.5rem; border-radius: 24px; opacity: 0; transition: all 0.6s ease-in-out;
+}
+.gang_character-name { color: var(--white); font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; text-transform: uppercase; }
+
+.gang_wrapper:hover .gang_name-wrapper { opacity: 1; }
+.gang_wrapper:hover .gang_illu { transform: rotateY(-180deg); z-index: -1; filter: brightness(0.08); }
+
+.gang_cta-wrapper {
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  height: 674px; margin-top: 260px; padding-bottom: 3rem; background-color: var(--white);
+  border-radius: 24px; position: relative; gap: 2rem;
+}
+.gang_big-illu-wrapper { position: absolute; pointer-events: none; }
+.gang_big-illu { position: relative; top: -64px; }
+
+/* Subscribe / Feedback Form Wrapper */
+.form_wrapper { position: relative; max-width: 31rem; margin: 191px auto 90px; padding: 4rem 2rem 3rem; background-color: var(--white); border-radius: 24px; }
+.form_illu { position: absolute; top: -190px; left: 0; right: 0; margin: 0 auto; width: 16.25rem; }
+
+/* Ép tiêu đề Feedback nằm trên 1 hàng */
+.form_wrapper .faq_title {
+  font-size: 2.25rem;
+  font-weight: 900;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.form_input-wrapper { display: flex; align-items: center; height: 72px; padding: 1.5rem; border: 1px solid var(--base-color-brand--blue); border-radius: 1rem; gap: 1rem; }
+.form_input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: var(--base-color-brand--blue);
+  outline: none;
+}
+.form_input:focus { outline: none; box-shadow: none; }
+.form_input:focus-visible { outline: none; box-shadow: none; }
+/* Bỏ background vàng của Chrome autofill */
+.form_input:-webkit-autofill,
+.form_input:-webkit-autofill:hover,
+.form_input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--white) inset !important;
+  -webkit-text-fill-color: var(--base-color-brand--blue) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--base-color-brand--blue);
+}
+.form_input::placeholder { color: rgba(0, 186, 48, 0.4); }
+
+/* Kiểu dáng ô Textarea Feedback */
+.form_input-wrapper.is-textarea {
+  height: auto;
+  min-height: 220px;
+  align-items: stretch;
+  padding: 1rem 1.5rem;
+}
+
+.form_textarea {
+  resize: vertical;
+  min-height: 200px;
+  outline: none;
+  font-family: inherit;
+  field-sizing: content; /* auto-grow theo nội dung (Chrome 123+) */
+}
+.form_textarea:focus { outline: none; box-shadow: none; }
+.form_textarea:focus-visible { outline: none; box-shadow: none; }
+.form_textarea:-webkit-autofill,
+.form_textarea:-webkit-autofill:hover,
+.form_textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--white) inset !important;
+  -webkit-text-fill-color: var(--base-color-brand--blue) !important;
+  caret-color: var(--base-color-brand--blue);
+}
+
+/* Icon bong bóng Chat cho ô Feedback */
+.icon-input-feedback {
+  width: 24px;
+  height: 24px;
+  margin-top: 4px;
+  flex-shrink: 0;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z' fill='%2300ABFF'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   FOOTER BOTTOM BAR (THANH ĐEN CỦI ĐÁY)
+   ========================================================================== */
+.footer_bottom-bar {
+  width: 100%;
+  background-color: var(--black, #2b2f33);
+  padding: 1.25rem 0;
+  margin-top: auto;
+}
+
+.footer_bottom-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.footer_copyright {
+  color: #9aa6b2;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media screen and (max-width: 991px) {
+  .bento_home-top, .bento_home-bottom { grid-template-columns: 1fr; }
+  .hero_slider-content {
+    flex-direction: column;
+    padding: 2rem !important;
+    min-height: auto;
+  }
+  .hero_slider-content-wrapper,
+  .hero_slider-content:not(.is-line-fullbleed) .hero_slider-image-wrapper {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .heading-style-h1 {
+    font-size: 2.25rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .heading-style-h2 { font-size: 1.85rem; word-break: break-word; overflow-wrap: anywhere; }
+  .heading-style-h3 { font-size: 1.55rem; word-break: break-word; overflow-wrap: anywhere; }
+  .gang_component { flex-direction: column; margin-top: 5rem; }
+  .gang_cta-wrapper { margin-top: 8rem; height: auto; padding-top: 10rem; }
+  .gang_big-illu { max-height: 25rem; }
+}
+
+/* Tổng quát: chặn mọi text dài tràn ngang viewport */
+img, video, svg, iframe, pre, code, table {
+  max-width: 100%;
+}
+.hero_title-wrapper {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .padding-xhuge { padding-top: 3rem !important; }
+
+  .hero_content-image.is-line-img.is-desktop-banner { display: none; }
+  .hero_content-image.is-line-img.is-mobile-banner {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .footer_bottom-bar { padding: 1rem 0; }
+  .footer_copyright { font-size: 0.85rem; }
+
+  /* === Slide "Join the Groups" – mobile only === */
+  .hero_slider-content {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 1.5rem !important;
+    align-items: stretch;
+    border-radius: 1.25rem;
+  }
+
+  /* Ẩn hoàn toàn ảnh con chim trên mobile */
+  .hero_slider-image-wrapper {
+    display: none !important;
+  }
+
+  /* Bỏ ép 1 hàng + cỡ chữ lớn ở desktop, cho mobile tự wrap */
+  .hero_slider-content-wrapper .heading-style-h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.15;
+    white-space: normal !important;
+    word-break: break-word;
+  }
+
+  .hero_slider-content-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    gap: 0.75rem;
+  }
+
+  .hero_slider-content-wrapper .margin-bottom.margin-xhuge {
+    margin-bottom: 0 !important;
+  }
+
+  .hero_slider-content-wrapper .hero_content-paragraph {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    margin-top: 0 !important;
+  }
+
+  /* Nút "Tham gia!" – 1 dòng, vừa màn hình */
+  .hero_button,
+  .text-align-center-mobile .hero_button {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: 140px;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+    margin: 0.5rem auto 0;
+  }
+
+  .text-align-center-mobile {
+    text-align: center;
+    width: 100%;
+  }
+
+  /* === Fix Swiper hiển thị 2 slide cùng lúc trên mobile === */
+  .hero_component {
+    overflow: hidden;
+  }
+  .hero_wrapper {
+    flex-wrap: nowrap;
+  }
+  .hero_wrapper > .swiper-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* === Title "Welcome to the world of qhun22!" – mobile === */
+  .hero_title-wrapper .heading-style-h1 {
+    font-size: 1.6rem !important;
+    line-height: 1.2;
+    white-space: normal !important;
+    word-break: break-word;
+    text-align: center;
+  }
+
+  /* === Bento Grid – mobile only === */
+  /* Card padding + height */
+  .bento_episodes-wrapper,
+  .bento_songs-wrapper,
+  .bento_apps-wrapper,
+  .bento_tales-wrapper,
+  .bento_crafts-wrapper {
+    padding: 1.25rem !important;
+    border-radius: 18px;
+  }
+  .bento_episodes-wrapper,
+  .bento_songs-wrapper { height: 320px !important; }
+  .bento_apps-wrapper,
+  .bento_tales-wrapper { height: 200px !important; }
+  .bento_crafts-wrapper { height: 320px !important; }
+
+  /* Title sizes (mobile) */
+  .bento_episodes-title {
+    font-size: 2.2rem !important;
+    line-height: 1;
+  }
+  .bento_songs-title {
+    font-size: 2.2rem !important;
+    line-height: 1;
+  }
+  .bento_apps-title {
+    font-size: 1.5rem !important;
+    line-height: 1;
+  }
+  .bento_tales-title {
+    font-size: 1.5rem !important;
+    line-height: 1;
+    text-align: left;
+  }
+  .bento_crafts-title {
+    font-size: 1.75rem !important;
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* Illu positions (mobile) */
+  .bento_episodes-illu {
+    left: 50% !important;
+    transform: translateX(-50%);
+    max-height: 220px !important;
+  }
+  .bento_songs-illu {
+    left: -10px !important;
+    max-height: 220px !important;
+  }
+  .bento_apps-illu {
+    right: -10px !important;
+    max-height: 140px !important;
+  }
+  .bento_tales-illu {
+    left: -10px !important;
+    max-height: 180px !important;
+    height: auto !important;
+  }
+  .bento_crafts-illu { inset: 0 !important; }
+
+  /* Main button trong bento – mobile: thu nhỏ, gọn */
+  .bento_episodes-wrapper .main_button,
+  .bento_songs-wrapper .main_button,
+  .bento_apps-wrapper .main_button,
+  .bento_tales-wrapper .main_button,
+  .bento_crafts-wrapper .main_button {
+    height: 40px !important;
+    padding: 0.25rem 1rem !important;
+    font-size: 0.95rem !important;
+    border-radius: 12px !important;
+  }
+
+  /* === Hero Pocoyo slide – mobile === */
+  .hero_content-lottie {
+    min-height: 300px !important;
+    padding: 0.5rem 1rem 0;
+  }
+  .hero_lottie {
+    /* Trên mobile: chữ "hola" nằm phía trên, thu nhỏ để không đè Pocoyo */
+    position: absolute !important;
+    top: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 280px !important;
+    height: 130px !important;
+    z-index: 1 !important;
+  }
+  .hero_image-pocoyo-gif {
+    max-width: 15rem !important;
+    z-index: 2 !important;
+    margin-top: 82px !important;
+  }
+
+  /* === Form Feedback – mobile === */
+  .form_wrapper {
+    margin: 140px 1rem 3rem !important;
+    padding: 3rem 1.25rem 2rem !important;
+    max-width: calc(100% - 2rem);
+  }
+  .form_illu {
+    top: -130px !important;
+    width: 12rem !important;
+  }
+  .form_wrapper .faq_title {
+    font-size: 1.5rem !important;
+    white-space: normal !important;
+    line-height: 1.2;
+  }
+  .form_input-wrapper {
+    height: 56px !important;
+    padding: 1rem !important;
+  }
+  .form_input { font-size: 1rem !important; }
+  .form_input-wrapper.is-textarea {
+    min-height: 240px;
+    padding: 0.875rem 1rem !important;
+  }
+  .form_textarea {
+    min-height: 220px !important;
+    font-size: 1rem !important;
+    line-height: 1.5;
+    width: 100%;
+    field-sizing: content;
+  }
+  .button.max-width-full {
+    font-size: 1rem !important;
+    padding: 0.75rem 1.5rem !important;
+  }
+}
