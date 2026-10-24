@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { trimTrailingSlash } from 'hono/trailing-slash'
 import { authRoutes } from './routes/auth'
 import { examRoutes } from './routes/exam'
 import { subjectRoutes } from './routes/subject'
@@ -14,6 +15,9 @@ export type Env = {
 }
 
 const app = new Hono<{ Bindings: Env }>()
+
+// Strip trailing slashes so /api/subjects/ → /api/subjects
+app.use('*', trimTrailingSlash())
 
 // Auth middleware
 app.use('*', authMiddleware)
