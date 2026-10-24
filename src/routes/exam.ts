@@ -130,7 +130,7 @@ examRoutes.post('/api/submit-exam/:code', async (c) => {
 
 // ── HTML render ──
 function renderExamPage(opts: {
-  quiz: Pick<QuizRow, 'code' | 'title' | 'duration_seconds'>
+  quiz: Pick<QuizRow, 'code' | 'title' | 'duration_seconds' | 'is_active' | 'has_key_username' | 'key_usernames' | 'id' | 'questions'>
   quizJson: string
   durationSeconds: number
   resultJson: string

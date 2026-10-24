@@ -578,7 +578,7 @@ export function parseDocxQuestions(paragraphs: RawParagraph[]): {
 
 // ── Extract paragraphs từ .docx ArrayBuffer ──
 // Dùng DOMParser (available trong Workers) để parse XML
-export async function extractParagraphsFromDocx(buffer: ArrayBuffer): Promise<RawParagraph[]> {
+export async function extractParagraphsFromDocx(_buffer: ArrayBuffer): Promise<RawParagraph[]> {
   // Unzip docx (zip format) để lấy word/document.xml
   // Trong Cloudflare Workers dùng DecompressionStream + manual ZIP parsing
   // Hoặc dùng thư viện: fflate (lightweight, wasm-free)

@@ -65,8 +65,10 @@ async function getHmacKey(secret: string): Promise<CryptoKey> {
 }
 
 export async function createJwt(payload: object, secret: string): Promise<string> {
-  const header = base64url(new TextEncoder().encode(JSON.stringify({ alg: 'HS256', typ: 'JWT' })))
-  const body = base64url(new TextEncoder().encode(JSON.stringify({ ...payload, iat: Math.floor(Date.now() / 1000) })))
+  const headerBytes = new TextEncoder().encode(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
+  const bodyBytes = new TextEncoder().encode(JSON.stringify({ ...payload, iat: Math.floor(Date.now() / 1000) }))
+  const header = base64url(headerBytes.buffer.slice(headerBytes.byteOffset, headerBytes.byteOffset + headerBytes.byteLength) as ArrayBuffer)
+  const body = base64url(bodyBytes.buffer.slice(bodyBytes.byteOffset, bodyBytes.byteOffset + bodyBytes.byteLength) as ArrayBuffer)
   const key = await getHmacKey(secret)
   const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${header}.${body}`))
   return `${header}.${body}.${base64url(sig)}`
