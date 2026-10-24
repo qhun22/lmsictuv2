@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch(`/api/quiz/${encodeURIComponent(quizCode)}/`, {
+      const response = await fetch(`/api/quiz/${encodeURIComponent(quizCode)}`, {
         credentials: 'same-origin',
       });
       const data = await response.json();
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn.textContent = 'Đang lưu...';
 
     try {
-      const response = await fetch(`/api/quiz/${encodeURIComponent(quizCode)}/update/`, {
+      const response = await fetch(`/api/quiz/${encodeURIComponent(quizCode)}/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

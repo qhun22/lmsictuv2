@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (submitted || accessCheckInProgress) return;
     accessCheckInProgress = true;
     try {
-      const response = await fetch(`/api/exam/${encodeURIComponent(quizCode)}/access/`, {
+      const response = await fetch(`/api/exam/${encodeURIComponent(quizCode)}/access`, {
         credentials: 'same-origin',
         cache: 'no-store',
       });
@@ -788,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (forceSubmit) $('exam-timer').textContent = '00:00';
 
     try {
-      const res = await fetch(`/api/submit-exam/${quizCode}/`, {
+      const res = await fetch(`/api/submit-exam/${quizCode}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCSRF() },
         body: JSON.stringify({ answers, question_order: questionOrder }),

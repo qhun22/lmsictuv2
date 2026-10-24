@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadDatabaseData() {
     try {
-      const response = await fetch('/api/subjects/', { credentials: 'same-origin' });
+      const response = await fetch('/api/subjects', { credentials: 'same-origin' });
       if (!response.ok) throw new Error('Không thể tải môn học');
       const data = await response.json();
       for (const subject of data.subjects || []) {
         subjects.push(subject.name);
         subjectIds.set(subject.name, subject.id);
-        const weeksResponse = await fetch(`/api/subject/${subject.id}/weeks/`, { credentials: 'same-origin' });
+        const weeksResponse = await fetch(`/api/subject/${subject.id}/weeks`, { credentials: 'same-origin' });
         const weeksData = weeksResponse.ok ? await weeksResponse.json() : { weeks: [] };
         weeklyMap[subject.name] = (weeksData.weeks || []).map((week) => ({
           ...week,
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch('/api/subject/create/', {
+      const response = await fetch('/api/subject/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
         credentials: 'same-origin',
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const deletePromises = [];
       for (const [name, subjectId] of subjectIds) {
         deletePromises.push(
-          fetch(`/api/subject/${subjectId}/`, {
+          fetch(`/api/subject/${subjectId}`, {
             method: 'POST',
             headers: { 'X-CSRFToken': getCsrfToken() },
             credentials: 'same-origin',
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (subjectId) {
             try {
-              const response = await fetch(`/api/subject/${subjectId}/rename/`, {
+              const response = await fetch(`/api/subject/${subjectId}/rename`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
                 credentials: 'same-origin',
@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const week = weeklyMap[newName || subjectName][weekIdx];
           if (week && newWeekName !== week.name && week._id) {
             try {
-              await fetch(`/api/week/${week._id}/rename/`, {
+              await fetch(`/api/week/${week._id}/rename`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
                 credentials: 'same-origin',
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (window.errorToast) window.errorToast('Lỗi', 'Không tìm thấy môn học');
           return false;
         }
-        fetch(`/api/subject/${subjectId}/week/create/`, {
+        fetch(`/api/subject/${subjectId}/week/create`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
           credentials: 'same-origin',
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const week = weeks[weekIdx];
     if (week._id) {
       try {
-        const response = await fetch(`/api/week/${week._id}/delete/`, {
+        const response = await fetch(`/api/week/${week._id}/delete`, {
           method: 'POST',
           headers: { 'X-CSRFToken': getCsrfToken() },
           credentials: 'same-origin',

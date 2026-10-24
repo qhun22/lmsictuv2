@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadDatabaseSubjects() {
     try {
-      const response = await fetch('/api/subjects/', { credentials: 'same-origin' });
+      const response = await fetch('/api/subjects', { credentials: 'same-origin' });
       if (!response.ok) {
         if (window.errorToast) window.errorToast('Không tải được môn học', 'Vui lòng đăng nhập lại hoặc tải lại trang.');
         return;
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const weeklyMap = { ...databaseWeeks };
       for (const subject of data.subjects || []) {
         try {
-          const weeksResponse = await fetch(`/api/subject/${subject.id}/weeks/`, { credentials: 'same-origin' });
+          const weeksResponse = await fetch(`/api/subject/${subject.id}/weeks`, { credentials: 'same-origin' });
           if (weeksResponse.ok) {
             const weeksData = await weeksResponse.json();
             weeklyMap[subject.name] = (weeksData.weeks || []).map((week) => ({
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function syncExistingQuizLinks() {
     try {
-      const response = await fetch('/api/quiz-links/', {
+      const response = await fetch('/api/quiz-links', {
         credentials: 'same-origin',
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('week_index', weekSelect.value || '');
 
     try {
-      const res = await fetch('/api/parse-word/', {
+      const res = await fetch('/api/parse-word', {
         method: 'POST',
         headers: {
           'X-CSRFToken': csrfToken,
@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (editingQuizCode) {
       try {
-        const response = await fetch(`/api/quiz/${encodeURIComponent(editingQuizCode)}/delete/`, {
+        const response = await fetch(`/api/quiz/${encodeURIComponent(editingQuizCode)}/delete`, {
           method: 'POST',
           headers: { 'X-CSRFToken': csrfToken },
           credentials: 'same-origin',
@@ -542,8 +542,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const subjectName = subjectSelect?.value || '';
       const weekIndex = weekSelect?.value || '';
       const endpoint = editingQuizCode
-        ? `/api/quiz/${encodeURIComponent(editingQuizCode)}/update/`
-        : '/api/save-quiz/';
+        ? `/api/quiz/${encodeURIComponent(editingQuizCode)}/update`
+        : '/api/save-quiz';
       const payload = {
         questions,
         subject: subjectName,
@@ -1672,7 +1672,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadExistingQuiz() {
     if (!editingQuizCode) return;
     try {
-      const response = await fetch(`/api/quiz/${encodeURIComponent(editingQuizCode)}/`, {
+      const response = await fetch(`/api/quiz/${encodeURIComponent(editingQuizCode)}`, {
         credentials: 'same-origin',
       });
       const responseText = await response.text();
@@ -1723,7 +1723,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function saveCurrentQuiz() {
     if (!editingQuizCode) return true;
     try {
-      const response = await fetch(`/api/quiz/${encodeURIComponent(editingQuizCode)}/update/`, {
+      const response = await fetch(`/api/quiz/${encodeURIComponent(editingQuizCode)}/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
         credentials: 'same-origin',

@@ -31,9 +31,9 @@
     },
     /** Đường dẫn backend xử lý từng loại form (clean URLs) */
     endpoints: {
-      login: (window.APP_BASE_URL || '') + '/login/',
-      register: (window.APP_BASE_URL || '') + '/register/',
-      forgot: (window.APP_BASE_URL || '') + '/forgot-password/'
+      login: (window.APP_BASE_URL || '') + '/login',
+      register: (window.APP_BASE_URL || '') + '/register',
+      forgot: (window.APP_BASE_URL || '') + '/forgot-password'
     },
     /** Timeout cho AJAX request (ms) */
     ajaxTimeout: 15000
@@ -355,7 +355,7 @@
         // Đổi nút submit thành link "Đăng nhập ngay" để user có đường đi rõ ràng.
         if (formType === 'register' && !result.redirect) {
           if (submitBtn) {
-            submitBtn.outerHTML = '<a href="' + (CONFIG.endpoints.login || '/login/') +
+            submitBtn.outerHTML = '<a href="' + (CONFIG.endpoints.login || '/login') +
               '" class="auth__button" aria-label="Đăng nhập ngay">Đăng nhập ngay</a>';
           }
         } else if (result.redirect) {
