@@ -8,7 +8,7 @@ import { scoreExam } from '../utils/scoring'
 export const examRoutes = new Hono<{ Bindings: Env }>()
 
 type QuizRow = {
-  id: number; code: string; title: string; is_active: number
+  id: number; code: string; title: string; subject: string; is_active: number
   questions: string; duration_seconds: number
   has_key_username: number; key_usernames: string
   auto_shuffle: number; show_answers_immediately: number
@@ -17,7 +17,7 @@ type QuizRow = {
 type AttemptRow = {
   id: number; quiz_id: number; user_id: number | null; session_key: string
   answers: string; results: string; score: number | null; total: number
-  quiz_code: string; quiz_title: string; quiz_questions: string; quiz_duration_seconds: number
+  quiz_code: string; quiz_title: string; quiz_subject: string; quiz_questions: string; quiz_duration_seconds: number
 }
 
 // ── GET /e/:code → exam_page ──
@@ -47,6 +47,7 @@ examRoutes.get('/e/:code', async (c) => {
     pageTitle: quiz.title || `Đề ${quiz.code}`,
     questionOrder,
     showAnswersImmediately: Boolean(quiz.show_answers_immediately),
+    username: session.username,
   }))
 })
 
@@ -57,7 +58,7 @@ examRoutes.get('/result/:code/:attempt_id', async (c) => {
   const attemptId = Number(c.req.param('attempt_id'))
 
   const attempt = await c.env.DB.prepare(`
-    SELECT a.*, q.code as quiz_code, q.title as quiz_title,
+    SELECT a.*, q.code as quiz_code, q.title as quiz_title, q.subject as quiz_subject,
            q.questions as quiz_questions, q.duration_seconds as quiz_duration_seconds
     FROM attempt a
     JOIN quiz q ON a.quiz_id = q.id
@@ -84,13 +85,14 @@ examRoutes.get('/result/:code/:attempt_id', async (c) => {
   })
 
   return c.html(renderExamPage({
-    quiz: { code, title: attempt.quiz_title, duration_seconds: attempt.quiz_duration_seconds, is_active: 1, has_key_username: 0, key_usernames: '[]', questions: attempt.quiz_questions, id: attempt.quiz_id, auto_shuffle: 0, show_answers_immediately: 0 },
+    quiz: { code, title: attempt.quiz_title, subject: attempt.quiz_subject ?? '', duration_seconds: attempt.quiz_duration_seconds, is_active: 1, has_key_username: 0, key_usernames: '[]', questions: attempt.quiz_questions, id: attempt.quiz_id, auto_shuffle: 0, show_answers_immediately: 0 },
     quizJson: JSON.stringify(questions),
     durationSeconds: attempt.quiz_duration_seconds,
     resultJson,
     pageTitle: `Kết quả - ${attempt.quiz_title || code}`,
     questionOrder: questions.map((_, i) => i),
     showAnswersImmediately: false,
+    username: session?.username ?? 'Username',
   }))
 })
 
@@ -137,37 +139,100 @@ examRoutes.post('/api/submit-exam/:code', async (c) => {
 
 // ── HTML render ──
 function renderExamPage(opts: {
-  quiz: Pick<QuizRow, 'code' | 'title' | 'duration_seconds' | 'is_active' | 'has_key_username' | 'key_usernames' | 'id' | 'questions' | 'auto_shuffle' | 'show_answers_immediately'>
+  quiz: Pick<QuizRow, 'code' | 'title' | 'subject' | 'duration_seconds' | 'is_active' | 'has_key_username' | 'key_usernames' | 'id' | 'questions' | 'auto_shuffle' | 'show_answers_immediately'>
   quizJson: string
   durationSeconds: number
   resultJson: string
   pageTitle: string
   questionOrder: number[]
   showAnswersImmediately: boolean
+  username: string
 }): string {
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  const subject = opts.quiz.subject ?? ''
   return `<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-  <title>${opts.pageTitle} | QHUN22</title>
+  <title>${esc(opts.pageTitle)} | QHUN22</title>
   <meta name="description" content="Bài thi trắc nghiệm QHUN22. Đăng nhập để bắt đầu làm bài." />
+  <meta property="og:title" content="${esc(opts.pageTitle)} | QHUN22" />
+  <meta property="og:description" content="Bài thi trắc nghiệm QHUN22. Đăng nhập để bắt đầu làm bài." />
+  <meta property="og:type" content="website" />
+  <meta name="csrf-token" content="" />
   <link rel="stylesheet" href="/css/exam.css" />
   <link rel="stylesheet" href="/css/toast.css" />
 </head>
 <body>
   <div class="exam-container" id="exam-container">
-    <script>
-      window.__QUIZ_DATA__ = ${opts.quizJson};
-      window.__QUIZ_QUESTION_ORDER__ = ${JSON.stringify(opts.questionOrder)};
-      window.__QUIZ_CODE__ = "${opts.quiz.code}";
-      window.__QUIZ_DURATION__ = ${opts.durationSeconds};
-      window.__SHOW_ANSWERS_IMMEDIATELY__ = ${opts.showAnswersImmediately};
-      window.__RESULT_DATA__ = ${opts.resultJson};
-    </script>
+    <header class="exam-header">
+      <span class="exam-user">${esc(opts.username)}</span>
+      <span class="exam-timer" id="exam-timer">00:00</span>
+      <a class="exam-exit" href="/">Thoát</a>
+    </header>
+
+    <main class="exam-content">
+      <div class="question-card" id="question-card">
+        <div class="question-header">
+          <span class="question-num" id="question-num">Câu 1</span>
+          <span class="question-type" id="question-type">1 đáp án đúng</span>
+        </div>
+        <p class="question-text" id="question-text"></p>
+        <div class="answer-list" id="answer-list"></div>
+      </div>
+
+      <div class="exam-nav">
+        <span class="exam-subject">Môn học${subject ? ': ' + esc(subject) : ''}</span>
+        <button type="button" class="btn-nav btn-nav-menu" id="btn-prev" aria-label="Mở danh sách câu hỏi" title="Danh sách câu hỏi">☰</button>
+        <div class="nav-dots" id="nav-dots"></div>
+        <button type="button" class="btn-nav btn-nav-next" id="btn-next" aria-label="Câu tiếp">→</button>
+        <button type="button" class="btn-nop" id="btn-submit">Nộp bài</button>
+      </div>
+    </main>
   </div>
+
+  <div class="question-drawer-backdrop" id="question-drawer-backdrop"></div>
+  <aside class="question-drawer" id="question-drawer" aria-hidden="true" aria-label="Danh sách câu hỏi">
+    <div class="question-drawer-header">
+      <h2>Danh sách câu hỏi</h2>
+      <button type="button" class="question-drawer-close" id="question-drawer-close" aria-label="Đóng danh sách câu hỏi">×</button>
+    </div>
+    <div class="question-drawer-subject">
+      <span class="question-drawer-subject-label">Môn học</span>
+      <strong>${subject ? esc(subject) : 'Chưa xác định'}</strong>
+    </div>
+    <div class="question-drawer-list" id="question-drawer-list"></div>
+  </aside>
+
+  <div class="modal-overlay" id="modal-submit" hidden>
+    <div class="modal-box">
+      <h2 class="modal-title">Nộp bài?</h2>
+      <p class="modal-text">Bạn đã trả lời <strong id="modal-answered">0</strong>/<span id="modal-total">${opts.questionOrder.length}</span> câu.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="modal-cancel">Hủy</button>
+        <button type="button" class="btn-confirm" id="modal-confirm">Nộp ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="touch-choice-overlay" id="touch-choice-overlay" hidden>
+    <div class="touch-choice-box" role="dialog" aria-modal="true" aria-labelledby="touch-choice-title">
+      <h2 class="touch-choice-title" id="touch-choice-title">Chọn vị trí</h2>
+      <div class="touch-choice-options" id="touch-choice-options"></div>
+      <button type="button" class="touch-choice-cancel" id="touch-choice-cancel">Hủy</button>
+    </div>
+  </div>
+
+  <script>
+    window.__QUIZ_DATA__ = ${opts.quizJson};
+    window.__QUIZ_QUESTION_ORDER__ = ${JSON.stringify(opts.questionOrder)};
+    window.__QUIZ_CODE__ = "${esc(opts.quiz.code)}";
+    window.__QUIZ_DURATION__ = ${opts.durationSeconds};
+    window.__SHOW_ANSWERS_IMMEDIATELY__ = ${opts.showAnswersImmediately};
+    window.__RESULT_DATA__ = ${opts.resultJson};
+  </script>
   <script src="/js/toast.js"></script>
-  <script src="/js/confirm.js"></script>
   <script src="/js/exam.js"></script>
 </body>
 </html>`
