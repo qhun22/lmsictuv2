@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Link
-      linkInput.value = `${window.location.origin}/e/${quizCode}`;
+      linkInput.value = `${window.location.origin}/e/${quizCode}/`;
 
       // Active toggle
       activeToggle.setAttribute('aria-checked', isActive);
