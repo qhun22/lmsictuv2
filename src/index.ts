@@ -1,5 +1,4 @@
 import { Hono } from 'hono'
-import { serveStatic } from 'hono/cloudflare-workers'
 import { authRoutes } from './routes/auth'
 import { examRoutes } from './routes/exam'
 import { subjectRoutes } from './routes/subject'
@@ -11,12 +10,10 @@ import { authMiddleware } from './middleware/auth'
 export type Env = {
   DB: D1Database
   SECRET_KEY: string
+  ASSETS: Fetcher
 }
 
 const app = new Hono<{ Bindings: Env }>()
-
-// Serve static assets (/assets/*)
-app.use('/assets/*', serveStatic({ root: './' }))
 
 // Auth middleware
 app.use('*', authMiddleware)

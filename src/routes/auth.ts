@@ -172,7 +172,7 @@ authRoutes.post('/account', async (c) => {
 import type { Context } from 'hono'
 
 // ── HTML render helpers (dùng lại template từ django/templates/account/) ──
-// Thay {% static %} bằng đường dẫn tuyệt đối /assets/...
+// Thay {% static %} bằng đường dẫn tuyệt đối /...
 // Thay {% if messages %} bằng flash object inject vào script
 
 function renderLogin(opts: { next?: string; error?: string }): string {
@@ -259,16 +259,16 @@ function baseAccountLayout(title: string, content: string): string {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title} — QHUN22</title>
-  <link rel="stylesheet" href="/assets/css/navbar.css" />
-  <link rel="stylesheet" href="/assets/css/account.css" />
-  <link rel="stylesheet" href="/assets/css/toast.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/account.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
 </head>
 <body>
   <div class="page-wrapper">
     ${content}
   </div>
-  <script src="/assets/js/toast.js"></script>
-  <script src="/assets/js/account.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/account.js"></script>
 </body>
 </html>`
 }

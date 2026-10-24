@@ -15,7 +15,10 @@ export const authMiddleware = createMiddleware<{ Bindings: Env }>(async (c, next
     PUBLIC_PATHS.has(path) ||
     path.startsWith('/e/') ||
     path.startsWith('/result/') ||
-    path.startsWith('/assets/') ||
+    path.startsWith('/css/') ||
+    path.startsWith('/js/') ||
+    path.startsWith('/img/') ||
+    path.startsWith('/gif/') ||
     path === '/api/submit-exam' ||
     path.startsWith('/api/submit-exam/')
   ) {

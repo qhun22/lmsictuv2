@@ -75,15 +75,15 @@ function baseLayout(title: string, extraCss: string[], content: string, extraJs:
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Signika:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/navbar.css" />
-  <link rel="stylesheet" href="/assets/css/toast.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
   ${cssLinks}
 </head>
 <body>
   <div class="page-wrapper">
     ${content}
   </div>
-  <script src="/assets/js/toast.js"></script>
+  <script src="/js/toast.js"></script>
   ${jsScripts}
 </body>
 </html>`
@@ -109,7 +109,7 @@ function navbar(username?: string): string {
 
 // ── Trang index (landing page — tương đương templates/index.html) ──
 function renderIndex(): string {
-  return baseLayout('QHUN22', ['https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', '/assets/css/z1.css', '/assets/css/z2.css'], `
+  return baseLayout('QHUN22', ['https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', '/css/z1.css', '/css/z2.css'], `
     ${navbar()}
     <main class="main-wrapper">
       <section class="section_hero">
@@ -152,51 +152,51 @@ function renderIndex(): string {
   `, [
     'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js',
-    '/assets/js/z1.js',
-    '/assets/js/z2.js',
+    '/js/z1.js',
+    '/js/z2.js',
   ])
 }
 
 // ── Trang home ──
 function renderHome(opts: { username: string }): string {
-  return baseLayout('Trang chủ', ['/assets/css/home.css'], `
+  return baseLayout('Trang chủ', ['/css/home.css'], `
     ${navbar(opts.username)}
     <main class="main-wrapper">
       <div id="home-app" data-username="${opts.username}"></div>
     </main>
-  `, ['/assets/js/home.js'])
+  `, ['/js/home.js'])
 }
 
 // ── Trang tạo môn học ──
 function renderTaoMonHoc(opts: { username: string }): string {
-  return baseLayout('Tạo môn học', ['/assets/css/tao-mon-hoc.css'], `
+  return baseLayout('Tạo môn học', ['/css/tao-mon-hoc.css'], `
     ${navbar(opts.username)}
     <main class="main-wrapper">
       <div id="tao-mon-hoc-app"></div>
     </main>
-  `, ['/assets/js/tao-mon-hoc.js'])
+  `, ['/js/tao-mon-hoc.js'])
 }
 
 // ── Trang tạo đề ──
 function renderTaoDe(opts: { username: string; initialSubjects: unknown[] }): string {
   const subjectsJson = JSON.stringify(opts.initialSubjects)
-  return baseLayout('Tạo đề', ['/assets/css/tao-de.css'], `
+  return baseLayout('Tạo đề', ['/css/tao-de.css'], `
     ${navbar(opts.username)}
     <main class="main-wrapper">
       <div id="tao-de-app"></div>
       <script>window.__INITIAL_SUBJECTS__ = ${subjectsJson};</script>
     </main>
-  `, ['/assets/js/tao-de.js'])
+  `, ['/js/tao-de.js'])
 }
 
 // ── Trang cấu hình đề ──
 function renderTaoDeCauHinh(opts: { username: string; quizCode: string }): string {
-  return baseLayout('Cấu hình bài thi', ['/assets/css/tao-de-cau-hinh.css'], `
+  return baseLayout('Cấu hình bài thi', ['/css/tao-de-cau-hinh.css'], `
     ${navbar(opts.username)}
     <main class="main-wrapper">
       <div id="cau-hinh-app" data-quiz-code="${opts.quizCode}"></div>
     </main>
-  `, ['/assets/js/tao-de-cau-hinh.js'])
+  `, ['/js/tao-de-cau-hinh.js'])
 }
 
 function safeJson<T>(str: string, fallback: T): T {

@@ -142,10 +142,10 @@ function renderExamPage(opts: {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${opts.pageTitle} — QHUN22</title>
-  <link rel="stylesheet" href="/assets/css/navbar.css" />
-  <link rel="stylesheet" href="/assets/css/exam.css" />
-  <link rel="stylesheet" href="/assets/css/toast.css" />
-  <link rel="stylesheet" href="/assets/css/confirm.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/exam.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
+  <link rel="stylesheet" href="/css/confirm.css" />
 </head>
 <body>
   <div class="page-wrapper" id="exam-app"
@@ -158,9 +158,9 @@ function renderExamPage(opts: {
       window.__QUIZ_DURATION__ = ${opts.durationSeconds};
     </script>
   </div>
-  <script src="/assets/js/toast.js"></script>
-  <script src="/assets/js/confirm.js"></script>
-  <script src="/assets/js/exam.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/confirm.js"></script>
+  <script src="/js/exam.js"></script>
 </body>
 </html>`
 }
@@ -169,7 +169,7 @@ function renderError(message: string): string {
   return `<!doctype html>
 <html lang="vi">
 <head><meta charset="UTF-8" /><title>Lỗi — QHUN22</title>
-<link rel="stylesheet" href="/assets/css/navbar.css" /></head>
+<link rel="stylesheet" href="/css/navbar.css" /></head>
 <body><div class="page-wrapper">
   <div class="error-page"><p class="error-message">${message}</p>
   <a href="/home" class="button">Về trang chủ</a></div>

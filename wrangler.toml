@@ -14,6 +14,6 @@ database_name = "lmsictu"
 database_id = "04e7b34c-aff4-4251-a3f7-56082a6cc51b"
 
 [vars]
-SECRET_KEY = "REPLACE_WITH_SECRET_KEY"
+SECRET_KEY = "set-via-cloudflare-dashboard"
 
 # Dev: đọc .dev.vars cho SECRET_KEY
