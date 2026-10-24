@@ -11,6 +11,7 @@ type QuizRow = {
   id: number; code: string; title: string; is_active: number
   questions: string; duration_seconds: number
   has_key_username: number; key_usernames: string
+  auto_shuffle: number; show_answers_immediately: number
 }
 
 type AttemptRow = {
@@ -37,11 +38,15 @@ examRoutes.get('/e/:code', async (c) => {
   }
 
   const questions = safeJson<unknown[]>(quiz.questions, [])
+  const autoShuffle = quiz.auto_shuffle !== 0
+  const questionOrder = autoShuffle ? shuffleIndices(questions.length) : questions.map((_, i) => i)
   return c.html(renderExamPage({
     quiz, quizJson: JSON.stringify(questions),
     durationSeconds: quiz.duration_seconds,
     resultJson: 'null',
     pageTitle: quiz.title || `Đề ${quiz.code}`,
+    questionOrder,
+    showAnswersImmediately: Boolean(quiz.show_answers_immediately),
   }))
 })
 
@@ -79,11 +84,13 @@ examRoutes.get('/result/:code/:attempt_id', async (c) => {
   })
 
   return c.html(renderExamPage({
-    quiz: { code, title: attempt.quiz_title, duration_seconds: attempt.quiz_duration_seconds, is_active: 1, has_key_username: 0, key_usernames: '[]', questions: attempt.quiz_questions, id: attempt.quiz_id },
+    quiz: { code, title: attempt.quiz_title, duration_seconds: attempt.quiz_duration_seconds, is_active: 1, has_key_username: 0, key_usernames: '[]', questions: attempt.quiz_questions, id: attempt.quiz_id, auto_shuffle: 0, show_answers_immediately: 0 },
     quizJson: JSON.stringify(questions),
     durationSeconds: attempt.quiz_duration_seconds,
     resultJson,
     pageTitle: `Kết quả - ${attempt.quiz_title || code}`,
+    questionOrder: questions.map((_, i) => i),
+    showAnswersImmediately: false,
   }))
 })
 
@@ -124,38 +131,39 @@ examRoutes.post('/api/submit-exam/:code', async (c) => {
   const origin = new URL(c.req.url).origin
   return c.json({
     success: true, score, correct, total, results,
-    result_url: `${origin}/result/${code}/${attempt!.id}/`,
+    result_url: `${origin}/result/${code}/${attempt!.id}`,
   })
 })
 
 // ── HTML render ──
 function renderExamPage(opts: {
-  quiz: Pick<QuizRow, 'code' | 'title' | 'duration_seconds' | 'is_active' | 'has_key_username' | 'key_usernames' | 'id' | 'questions'>
+  quiz: Pick<QuizRow, 'code' | 'title' | 'duration_seconds' | 'is_active' | 'has_key_username' | 'key_usernames' | 'id' | 'questions' | 'auto_shuffle' | 'show_answers_immediately'>
   quizJson: string
   durationSeconds: number
   resultJson: string
   pageTitle: string
+  questionOrder: number[]
+  showAnswersImmediately: boolean
 }): string {
   return `<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${opts.pageTitle} — QHUN22</title>
-  <link rel="stylesheet" href="/css/navbar.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <title>${opts.pageTitle} | QHUN22</title>
+  <meta name="description" content="Bài thi trắc nghiệm QHUN22. Đăng nhập để bắt đầu làm bài." />
   <link rel="stylesheet" href="/css/exam.css" />
   <link rel="stylesheet" href="/css/toast.css" />
-  <link rel="stylesheet" href="/css/confirm.css" />
 </head>
 <body>
-  <div class="page-wrapper" id="exam-app"
-    data-quiz-code="${opts.quiz.code}"
-    data-duration="${opts.durationSeconds}">
+  <div class="exam-container" id="exam-container">
     <script>
       window.__QUIZ_DATA__ = ${opts.quizJson};
-      window.__RESULT_DATA__ = ${opts.resultJson};
+      window.__QUIZ_QUESTION_ORDER__ = ${JSON.stringify(opts.questionOrder)};
       window.__QUIZ_CODE__ = "${opts.quiz.code}";
       window.__QUIZ_DURATION__ = ${opts.durationSeconds};
+      window.__SHOW_ANSWERS_IMMEDIATELY__ = ${opts.showAnswersImmediately};
+      window.__RESULT_DATA__ = ${opts.resultJson};
     </script>
   </div>
   <script src="/js/toast.js"></script>
@@ -178,4 +186,13 @@ function renderError(message: string): string {
 
 function safeJson<T>(str: string, fallback: T): T {
   try { return JSON.parse(str) } catch { return fallback }
+}
+
+function shuffleIndices(length: number): number[] {
+  const arr = Array.from({ length }, (_, i) => i)
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
 }

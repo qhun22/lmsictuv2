@@ -37,18 +37,20 @@ CREATE TABLE IF NOT EXISTS week (
 );
 
 CREATE TABLE IF NOT EXISTS quiz (
-  id                INTEGER PRIMARY KEY AUTOINCREMENT,
-  code              TEXT NOT NULL UNIQUE,
-  title             TEXT NOT NULL DEFAULT '',
-  subject           TEXT NOT NULL DEFAULT '',
-  week_index        INTEGER,
-  is_active         INTEGER NOT NULL DEFAULT 1,
-  creator_id        INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  questions         TEXT NOT NULL DEFAULT '[]',  -- JSON array
-  duration_seconds  INTEGER NOT NULL DEFAULT 1800,
-  has_key_username  INTEGER NOT NULL DEFAULT 0,
-  key_usernames     TEXT NOT NULL DEFAULT '[]',  -- JSON array
-  created_at        TEXT NOT NULL DEFAULT (datetime('now'))
+  id                       INTEGER PRIMARY KEY AUTOINCREMENT,
+  code                     TEXT NOT NULL UNIQUE,
+  title                    TEXT NOT NULL DEFAULT '',
+  subject                  TEXT NOT NULL DEFAULT '',
+  week_index               INTEGER,
+  is_active                INTEGER NOT NULL DEFAULT 1,
+  creator_id               INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  questions                TEXT NOT NULL DEFAULT '[]',  -- JSON array
+  duration_seconds         INTEGER NOT NULL DEFAULT 1800,
+  has_key_username         INTEGER NOT NULL DEFAULT 0,
+  key_usernames            TEXT NOT NULL DEFAULT '[]',  -- JSON array
+  auto_shuffle             INTEGER NOT NULL DEFAULT 1,
+  show_answers_immediately INTEGER NOT NULL DEFAULT 0,
+  created_at               TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_quiz_code ON quiz(code);

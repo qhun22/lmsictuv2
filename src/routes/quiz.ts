@@ -11,7 +11,8 @@ export const quizRoutes = new Hono<{ Bindings: Env }>()
 type QuizRow = {
   id: number; code: string; title: string; subject: string; week_index: number | null
   is_active: number; creator_id: number; questions: string; duration_seconds: number
-  has_key_username: number; key_usernames: string; created_at: string
+  has_key_username: number; key_usernames: string; auto_shuffle: number
+  show_answers_immediately: number; created_at: string
 }
 
 // ── POST /api/parse-word ──
@@ -88,7 +89,7 @@ quizRoutes.post('/save-quiz', async (c) => {
   // Gán link vào Week nếu có subject + week_index
   if (subject && weekIdx !== null) {
     const origin = new URL(c.req.url).origin
-    const link = `${origin}/e/${code}/`
+    const link = `${origin}/e/${code}`
     await c.env.DB.prepare(
       `UPDATE week SET link = ?, quiz_code = ?
        WHERE subject_id = (SELECT id FROM subject WHERE name = ? AND creator_id = ?)
@@ -97,7 +98,7 @@ quizRoutes.post('/save-quiz', async (c) => {
   }
 
   const origin = new URL(c.req.url).origin
-  return c.json({ success: true, code, link: `${origin}/e/${code}/` })
+  return c.json({ success: true, code, link: `${origin}/e/${code}` })
 })
 
 // ── GET /api/quiz-links ──
@@ -113,7 +114,7 @@ quizRoutes.get('/quiz-links', async (c) => {
   return c.json({
     links: results.map((q) => ({
       subject: q.subject, week_index: q.week_index, code: q.code, title: q.title,
-      is_active: Boolean(q.is_active), link: `${origin}/e/${q.code}/`,
+      is_active: Boolean(q.is_active), link: `${origin}/e/${q.code}`,
     })),
   })
 })
@@ -134,6 +135,8 @@ quizRoutes.get('/quiz/:code', async (c) => {
     duration_seconds: quiz.duration_seconds, has_key_username: Boolean(quiz.has_key_username),
     key_usernames: safeJson<string[]>(quiz.key_usernames, []),
     questions: safeJson(quiz.questions, []),
+    auto_shuffle: quiz.auto_shuffle !== 0,
+    show_answers_immediately: Boolean(quiz.show_answers_immediately),
   })
 })
 
@@ -168,6 +171,8 @@ quizRoutes.post('/quiz/:code/update', async (c) => {
   }
   if ('has_key_username' in data) { sets.push('has_key_username = ?'); vals.push(data.has_key_username ? 1 : 0) }
   if ('key_usernames' in data) { sets.push('key_usernames = ?'); vals.push(JSON.stringify(data.key_usernames ?? [])) }
+  if ('auto_shuffle' in data) { sets.push('auto_shuffle = ?'); vals.push(data.auto_shuffle !== false ? 1 : 0) }
+  if ('show_answers_immediately' in data) { sets.push('show_answers_immediately = ?'); vals.push(data.show_answers_immediately ? 1 : 0) }
 
   if (sets.length > 0) {
     vals.push(code, session.userId)
@@ -185,7 +190,7 @@ quizRoutes.post('/quiz/:code/update', async (c) => {
       `UPDATE week SET link = ?, quiz_code = ?
        WHERE subject_id = (SELECT id FROM subject WHERE name = ? AND creator_id = ?)
        ORDER BY id LIMIT 1 OFFSET ?`
-    ).bind(`${origin}/e/${code}/`, code, newSubject, session.userId, newWeekIdx).run()
+    ).bind(`${origin}/e/${code}`, code, newSubject, session.userId, newWeekIdx).run()
   }
 
   return c.json({ success: true })
