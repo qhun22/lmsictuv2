@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = `Môn học "${subjectName}" - tuần "${weekName}" đã được tạo link. Bạn có muốn chỉnh sửa đề hiện tại không?`;
     const openEditor = (confirmed) => {
       if (confirmed) {
-        window.location.href = `/tao-de/?quiz=${encodeURIComponent(selectedWeek.quizCode)}`;
+        window.location.href = `/tao-de?quiz=${encodeURIComponent(selectedWeek.quizCode)}`;
       } else if (window.infoToast) {
         window.infoToast(
           'Đã từ chối chỉnh sửa',
@@ -560,8 +560,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.success) {
         const quizCode = data.code || editingQuizCode;
         // Chuyển sang trang cấu hình
-        window.history.replaceState({}, '', `/tao-de/?quiz=${encodeURIComponent(quizCode)}`);
-        window.location.href = `/tao-de-cau-hinh/?quiz=${encodeURIComponent(quizCode)}`;
+        window.history.replaceState({}, '', `/tao-de?quiz=${encodeURIComponent(quizCode)}`);
+        window.location.href = `/tao-de-cau-hinh?quiz=${encodeURIComponent(quizCode)}`;
       } else {
         if (window.errorToast) window.errorToast('Lỗi', data.message || 'Không thể lưu đề.');
         btnShare.disabled = false;

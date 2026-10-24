@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitted = true;
         clearInterval(accessCheck);
         clearInterval(timer);
-        window.location.replace('/home/?access=revoked');
+        window.location.replace('/home?access=revoked');
       }
     } catch {
       // Giữ bài làm khi mạng chập chờn; lần kiểm tra kế tiếp sẽ thử lại.
@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btn-next').addEventListener('click', () => goTo(currentIdx + 1));
   $('btn-submit').addEventListener('click', () => {
     if (submitted) {
-      window.location.href = `/e/${quizCode}/`;
+      window.location.href = `/e/${quizCode}`;
       return;
     }
     const unanswered = questions
